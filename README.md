@@ -21,6 +21,13 @@ HTTP server > http_stream_reader --> decoder --> raw_split --> equalizer --> i2s
 For recieve audio data from `raw_split` use `raw_stream` element.
 
 ```c
+    raw_split_cfg_t rs_cfg = RAW_SPLIT_CFG_DEFAULT();
+    raw_split.multi_out_num = 1;
+    raw_split = raw_split_init(&rs_cfg);
+
+//
+//
+
     ringbuf_handle_t rb = audio_element_get_output_ringbuf(raw_stream);
     audio_element_set_multi_output_ringbuf(raw_split, rb, 0);
 ```
@@ -38,6 +45,13 @@ HTTP server > http_stream_reader --> decoder --> raw_split --> equalizer --> i2s
 ```
 Smaple code for more branches:
 ```c
+    raw_split_cfg_t rs_cfg = RAW_SPLIT_CFG_DEFAULT();
+    raw_split.multi_out_num = 2;
+    raw_split = raw_split_init(&rs_cfg);
+
+//
+//
+
     ringbuf_handle_t rb0 = audio_element_get_output_ringbuf(raw_stream);
     ringbuf_handle_t rb1 = audio_element_get_output_ringbuf(raw_stream_bt);
     audio_element_set_multi_output_ringbuf(raw_split, rb0, 0);
