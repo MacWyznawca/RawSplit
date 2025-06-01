@@ -20,7 +20,7 @@ HTTP server > http_stream_reader --> decoder --> raw_split --> equalizer --> i2s
 
 For recieve audio data from `raw_split` use `raw_stream` element.
 
-```
+```c
     ringbuf_handle_t rb = audio_element_get_output_ringbuf(raw_stream);
     audio_element_set_multi_output_ringbuf(raw_split, rb, 0);
 ```
@@ -37,7 +37,7 @@ HTTP server > http_stream_reader --> decoder --> raw_split --> equalizer --> i2s
                                                      --> raw_stream_bt --> resample_for_bt --> bt_stream_writer > Bluetooth speaker
 ```
 Smaple code for more branches:
-```
+```c
     ringbuf_handle_t rb0 = audio_element_get_output_ringbuf(raw_stream);
     ringbuf_handle_t rb1 = audio_element_get_output_ringbuf(raw_stream_bt);
     audio_element_set_multi_output_ringbuf(raw_split, rb0, 0);
