@@ -23,7 +23,7 @@ For recieve audio data from `raw_split` use `raw_stream` element.
 ```c
     raw_split_cfg_t rs_cfg = RAW_SPLIT_CFG_DEFAULT();
     raw_split.multi_out_num = 1;
-    raw_split = raw_split_init(&rs_cfg);
+    audio_element_handle_t raw_split = raw_split_init(&rs_cfg);
 
 //
 //
@@ -47,7 +47,7 @@ Smaple code for more branches:
 ```c
     raw_split_cfg_t rs_cfg = RAW_SPLIT_CFG_DEFAULT();
     raw_split.multi_out_num = 2;
-    raw_split = raw_split_init(&rs_cfg);
+    audio_element_handle_t raw_split = raw_split_init(&rs_cfg);
 
 //
 //
