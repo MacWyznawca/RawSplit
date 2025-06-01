@@ -16,7 +16,7 @@
 #include "audio_element.h"
 #include "raw_split.h"
 #include "audio_type_def.h"
-static const char *TAG = "EQUALIZER";
+static const char *TAG = "SPLITTER";
 
 #define BUF_SIZE (3600)
 
