@@ -23,7 +23,6 @@ static const char *TAG = "SPLITTER";
 typedef struct raw_split {
     unsigned char *buf;
     int  byte_num;
-    int  at_eof;
 } raw_split_t;
 
 static esp_err_t raw_split_destroy(audio_element_handle_t self){
@@ -37,10 +36,6 @@ static esp_err_t raw_split_open(audio_element_handle_t self){
     ESP_LOGD(TAG, "raw_split_open");
 
     raw_split_t *raw_split = (raw_split_t *)audio_element_getdata(self);
-
-    audio_element_info_t info = {0};
-    audio_element_getinfo(self, &info);
-    raw_split->at_eof = 0;
 
     raw_split->buf = (unsigned char *)audio_calloc(1, BUF_SIZE);
     if (raw_split->buf == NULL) {
@@ -64,14 +59,10 @@ static esp_err_t raw_split_close(audio_element_handle_t self){
 static int raw_split_process(audio_element_handle_t self, char *in_buffer, int in_len){
     raw_split_t *raw_split = (raw_split_t *)audio_element_getdata(self);
     int ret = 0;
-    int r_size = 0;
-    if (raw_split->at_eof == 0) {
-        r_size = audio_element_input(self, (char *)raw_split->buf, BUF_SIZE);
-    }
+    
+    int r_size = audio_element_input(self, (char *)raw_split->buf, BUF_SIZE);
+
     if (r_size > 0) {
-        if (r_size != BUF_SIZE) {
-            raw_split->at_eof = 1;
-        }
         raw_split->byte_num += r_size;
         audio_element_multi_output(self, (char *)raw_split->buf, r_size, 0);
         ret = audio_element_output(self, (char *)raw_split->buf, BUF_SIZE);
@@ -107,6 +98,8 @@ audio_element_handle_t raw_split_init(raw_split_cfg_t *config){
     cfg.stack_in_ext = config->stack_in_ext;
     audio_element_handle_t el = audio_element_init(&cfg);
     AUDIO_MEM_CHECK(TAG, el, {audio_free(raw_split); return NULL;});
+    raw_split->buf = NULL;
+    raw_split->byte_num = 0;
     audio_element_setdata(el, raw_split);
     audio_element_info_t info = {0};
     audio_element_setinfo(el, &info);
