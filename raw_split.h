@@ -43,7 +43,7 @@ typedef struct {
     int                     multi_out_num;      /*!< The number of multiple output */
 } raw_split_cfg_t;
 
-#define RAW_OUT_TASK_STACK           (4 * 1024)
+#define RAW_OUT_TASK_STACK           (3 * 1024)
 #define RAW_OUT_TASK_PRIO            (5)
 #define RAW_OUT_TASK_CORE            (0)
 #define RAW_OUT_RINGBUFFER_SIZE      (3 * 1024)
@@ -54,7 +54,7 @@ typedef struct {
     .task_core = RAW_OUT_TASK_CORE,                                          \
     .task_prio = RAW_OUT_TASK_PRIO,                                          \
     .stack_in_ext = true,                                                      \
-    .multi_out_num = 1, \
+    .multi_out_num = 0, \
 }
 
 /**
