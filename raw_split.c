@@ -18,11 +18,10 @@
 #include "audio_type_def.h"
 static const char *TAG = "SPLITTER";
 
-#define BUF_SIZE (3600)
+#define BUF_SIZE (3 * 1024)
 
 typedef struct raw_split {
     unsigned char *buf;
-    int  byte_num;
 } raw_split_t;
 
 static esp_err_t raw_split_destroy(audio_element_handle_t self){
@@ -63,9 +62,8 @@ static int raw_split_process(audio_element_handle_t self, char *in_buffer, int i
     int r_size = audio_element_input(self, (char *)raw_split->buf, BUF_SIZE);
 
     if (r_size > 0) {
-        raw_split->byte_num += r_size;
         audio_element_multi_output(self, (char *)raw_split->buf, r_size, 0);
-        ret = audio_element_output(self, (char *)raw_split->buf, BUF_SIZE);
+        ret = audio_element_output(self, (char *)raw_split->buf, r_size);
     } else {
         ret = r_size;
     }
@@ -99,7 +97,6 @@ audio_element_handle_t raw_split_init(raw_split_cfg_t *config){
     audio_element_handle_t el = audio_element_init(&cfg);
     AUDIO_MEM_CHECK(TAG, el, {audio_free(raw_split); return NULL;});
     raw_split->buf = NULL;
-    raw_split->byte_num = 0;
     audio_element_setdata(el, raw_split);
     audio_element_info_t info = {0};
     audio_element_setinfo(el, &info);
