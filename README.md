@@ -3,6 +3,9 @@
 
 Element for branching audio stream to additional pipelines anywhere in the main pipeline
 
+# Note: The repository has become part of the [RadioJKK](https://github.com/MacWyznawca/RadioJKK/tree/main/radioJKK32/main/RawSplit) project and will be developed along with it.
+You will also find there practical examples of use. Feel free to join the [**RadioJKK project**](https://github.com/MacWyznawca/RadioJKK/tree/main/radioJKK32/main/RawSplit)!
+
 ## Brief of use
 
 If you need to branch the audio stream, e.g. to simultaneously play audio from the source to output and save it to the SD card, use this element.
